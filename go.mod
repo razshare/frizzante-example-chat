@@ -2,7 +2,10 @@ module main
 
 go 1.24
 
-require github.com/razshare/frizzante v1.2.5
+require (
+	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d
+	github.com/razshare/frizzante v1.2.5
+)
 
 require (
 	atomicgo.dev/cursor v0.2.0 // indirect
@@ -14,7 +17,6 @@ require (
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/lithammer/fuzzysearch v1.1.8 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
-	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d // indirect
 	github.com/pterm/pterm v0.12.81 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect

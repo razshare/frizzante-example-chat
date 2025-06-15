@@ -1,3 +1,4 @@
 export const views = {
-    ChatRoom: import("$lib/views/ChatRoom.svelte"),
+    Chat: import("$lib/views/Chat.svelte"),
+    Username: import("$lib/views/Username.svelte"),
 }

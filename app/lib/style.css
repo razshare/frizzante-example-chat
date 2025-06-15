@@ -1,0 +1,40 @@
+h1 {
+    color: cadetblue;
+    text-align: center;
+    width: 400px;
+}
+
+.link {
+    color: cadetblue;
+    text-decoration: none;
+    background: transparent;
+    border: 0;
+}
+
+.link:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.menu {
+    text-align: center;
+    width: 400px;
+}
+
+.error {
+    color: orangered;
+}
+
+input {
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid cadetblue;
+    padding: 0.3rem;
+    border-radius: 0;
+    color: cadetblue;
+}
+
+input:focus {
+    background-color: rgba(0, 0, 0, 0.1);
+    outline: none;
+}

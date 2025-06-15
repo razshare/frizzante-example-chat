@@ -13,6 +13,10 @@ func main() {
 	frz.NewServer().
 		WithEfs(efs).
 		AddRoute(frz.Route{Pattern: "GET /", Handler: handlers.Default}).
-		AddRoute(frz.Route{Pattern: "GET /socket", Handler: handlers.Socket}).
+		AddRoute(frz.Route{Pattern: "GET /chat", Handler: handlers.Chat}).
+		AddRoute(frz.Route{Pattern: "GET /username", Handler: handlers.Username}).
+		AddRoute(frz.Route{Pattern: "GET /chat/messages/stream", Handler: handlers.ChatMessagesStream}).
+		AddRoute(frz.Route{Pattern: "POST /chat/messages/add", Handler: handlers.ChatMessagesAdd}).
+		AddRoute(frz.Route{Pattern: "POST /chat/username/set", Handler: handlers.ChatUsernameSet}).
 		Start()
 }
