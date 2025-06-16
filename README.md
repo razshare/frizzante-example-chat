@@ -12,6 +12,12 @@ sudo apt install build-essential unzip curl
 
 # Get Started
 
+Update dependencies with
+
+```sh
+make update
+```
+
 Start development mode with
 
 ```sh
