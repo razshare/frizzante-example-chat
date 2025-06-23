@@ -3,64 +3,66 @@ package handlers
 import (
 	"fmt"
 	uuid "github.com/nu7hatch/gouuid"
-	"github.com/razshare/frizzante/frz"
+	"github.com/razshare/frizzante/libcon"
+	"github.com/razshare/frizzante/libsession"
+	"github.com/razshare/frizzante/libview"
 	"main/lib"
 )
 
 var messages = []string{}
-var connections = map[string]*frz.Connection{}
+var connections = map[string]*libcon.Connection{}
 
-func Chat(c *frz.Connection) {
-	s, _ := frz.Session(c, lib.State{})
-	if s.Username == "" {
-		c.SendNavigate("/username")
+func Chat(con *libcon.Connection) {
+	state, _ := libsession.Session(con, lib.State{})
+	if state.Username == "" {
+		con.SendNavigate("/username")
 		return
 	}
-	c.SendView(frz.View{Name: "Chat", Data: map[string]any{
-		"username": s.Username,
+	con.SendView(libview.View{Name: "Chat", Data: map[string]any{
+		"username": state.Username,
 		"messages": messages,
 	}})
 }
 
-func ChatMessagesAdd(c *frz.Connection) {
-	s, _ := frz.Session(c, lib.State{})
-	if s.Username == "" {
-		c.SendNavigate("/username")
+func ChatMessagesAdd(con *libcon.Connection) {
+	state, _ := libsession.Session(con, lib.State{})
+	if state.Username == "" {
+		con.SendNavigate("/username")
 		return
 	}
-	message := fmt.Sprintf("%s: %s", s.Username, c.ReceiveForm().Get("message"))
+	message := fmt.Sprintf("%s: %s", state.Username, con.ReceiveForm().Get("message"))
 	messages = append(messages, message)
 	for _, connection := range connections {
 		connection.SendMessage(message)
 	}
 }
 
-func ChatMessagesStream(c *frz.Connection) {
-	s, _ := frz.Session(c, lib.State{})
-	if s.Username == "" {
-		c.SendNavigate("/username")
+func ChatMessagesStream(con *libcon.Connection) {
+	state, _ := libsession.Session(con, lib.State{})
+	if state.Username == "" {
+		con.SendNavigate("/username")
 		return
 	}
 
-	c.SendSseUpgrade()
+	con.SendSseUpgrade()
 
 	idObject, idError := uuid.NewV4()
 	if idError != nil {
-		c.SendView(frz.View{Name: "Chat", Data: map[string]any{
+		con.SendView(libview.View{Name: "Chat", Data: map[string]any{
 			"error": idError.Error(),
 		}})
 		return
 	}
 
 	id := idObject.String()
-	connections[id] = c
-	<-c.ReceiveCancellation()
+	connections[id] = con
+	<-con.ReceiveCancellation()
 	delete(connections, id)
 }
 
-func ChatUsernameSet(c *frz.Connection) {
-	s, o := frz.Session(c, lib.State{})
-	defer o.Save(s)
-	s.Username = c.ReceiveForm().Get("username")
-	c.SendNavigate("/")
+func ChatUsernameSet(con *libcon.Connection) {
+	state, op := libsession.Session(con, lib.State{})
+	defer op.Save(state)
+	state.Username = con.ReceiveForm().Get("username")
+	con.SendNavigate("/")
 }
