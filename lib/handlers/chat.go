@@ -2,67 +2,67 @@ package handlers
 
 import (
 	"fmt"
-	uuid "github.com/nu7hatch/gouuid"
-	"github.com/razshare/frizzante/libcon"
-	"github.com/razshare/frizzante/libsession"
-	"github.com/razshare/frizzante/libview"
+	"github.com/nu7hatch/gouuid"
+	"github.com/razshare/frizzante/connections"
+	"github.com/razshare/frizzante/sessions"
+	"github.com/razshare/frizzante/views"
 	"main/lib"
 )
 
 var messages = []string{}
-var connections = map[string]*libcon.Connection{}
+var listOfConnections = map[string]*connections.Connection{}
 
-func Chat(con *libcon.Connection) {
-	state, _ := libsession.Session(con, lib.State{})
+func Chat(con *connections.Connection) {
+	state, _ := sessions.Start[lib.State](con)
 	if state.Username == "" {
 		con.SendNavigate("/username")
 		return
 	}
-	con.SendView(libview.View{Name: "Chat", Data: map[string]any{
+	con.SendView(views.View{Name: "Chat", Data: map[string]any{
 		"username": state.Username,
 		"messages": messages,
 	}})
 }
 
-func ChatMessagesAdd(con *libcon.Connection) {
-	state, _ := libsession.Session(con, lib.State{})
+func ChatMessagesAdd(con *connections.Connection) {
+	state, _ := sessions.Start[lib.State](con)
 	if state.Username == "" {
 		con.SendNavigate("/username")
 		return
 	}
 	message := fmt.Sprintf("%s: %s", state.Username, con.ReceiveForm().Get("message"))
 	messages = append(messages, message)
-	for _, connection := range connections {
-		connection.SendMessage(message)
+	for _, conLocal := range listOfConnections {
+		conLocal.SendMessage(message)
 	}
 }
 
-func ChatMessagesStream(con *libcon.Connection) {
-	state, _ := libsession.Session(con, lib.State{})
+func ChatMessagesStream(con *connections.Connection) {
+	state, _ := sessions.Start[lib.State](con)
 	if state.Username == "" {
 		con.SendNavigate("/username")
 		return
 	}
 
-	con.SendSseUpgrade()
-
-	idObject, idError := uuid.NewV4()
+	idObj, idError := uuid.NewV4()
 	if idError != nil {
-		con.SendView(libview.View{Name: "Chat", Data: map[string]any{
+		con.SendView(views.View{Name: "Chat", Data: map[string]any{
 			"error": idError.Error(),
 		}})
 		return
 	}
 
-	id := idObject.String()
-	connections[id] = con
+	con.SendSseUpgrade()
+
+	id := idObj.String()
+	listOfConnections[id] = con
 	<-con.ReceiveCancellation()
-	delete(connections, id)
+	delete(listOfConnections, id)
 }
 
-func ChatUsernameSet(con *libcon.Connection) {
-	state, op := libsession.Session(con, lib.State{})
-	defer op.Save(state)
+func ChatUsernameSet(con *connections.Connection) {
+	state, operator := sessions.Start[lib.State](con)
+	defer operator.Save(state)
 	state.Username = con.ReceiveForm().Get("username")
 	con.SendNavigate("/")
 }

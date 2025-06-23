@@ -1,7 +1,3 @@
-<style>
-
-</style>
-
 <script lang="ts">
     import Layout from "$lib/components/Layout.svelte"
     import { action } from "$lib/utilities/frz/scripts/action.ts"
