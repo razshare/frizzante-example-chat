@@ -1,6 +1,6 @@
 <script lang="ts">
     import Layout from "$lib/components/Layout.svelte"
-    import { action } from "$lib/utilities/frz/scripts/action.ts"
+    import { action } from "$lib/utilities/frizzante/scripts/action.ts"
 </script>
 
 <Layout title="Pick Room">

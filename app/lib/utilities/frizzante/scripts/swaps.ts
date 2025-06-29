@@ -1,5 +1,5 @@
-import type { View } from "$lib/utilities/frz/types.ts"
-import { uuid } from "$lib/utilities/frz/scripts/uuid.ts"
+import type { View } from "$lib/utilities/frizzante/types.ts"
+import { uuid } from "$lib/utilities/frizzante/scripts/uuid.ts"
 
 type SwapAction = {
     method: () => string
