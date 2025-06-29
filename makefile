@@ -2,7 +2,7 @@
 ###### Composites ######
 ########################
 test: install check package
-	CGO_ENABLED=1 go test ./...
+	CGO_ENABLED=1 go test
 
 build: install check package
 	CGO_ENABLED=1 go build -o .gen/bin/app .
@@ -23,14 +23,14 @@ check: touch
 
 package-watch: touch
 	cd app && \
-	bunx vite build --logLevel info --ssr lib/utilities/frizzante/scripts/server.ts --outDir dist --watch & \
+	bunx vite build --logLevel info --ssr frizzante/scripts/server.ts --outDir dist --watch & \
 	cd app && \
 	bunx vite build --logLevel info --outDir dist/client --watch & \
 	wait
 
 package: touch
 	cd app && \
-	bunx vite build --logLevel info --ssr lib/utilities/frizzante/scripts/server.ts --outDir dist --emptyOutDir && \
+	bunx vite build --logLevel info --ssr frizzante/scripts/server.ts --outDir dist --emptyOutDir && \
 	bunx vite build --logLevel info --outDir dist/client --emptyOutDir && \
 	node_modules/.bin/esbuild dist/server.js --bundle --outfile=dist/server.js --format=cjs --allow-overwrite && \
 	touch dist/.gitkeep
@@ -51,6 +51,10 @@ format: touch
 ########################
 ###### Primitives ######
 ########################
+publish:
+### Publish...
+	./publish.sh
+
 clean:
 ### Remove...
 	go clean
@@ -63,9 +67,6 @@ touch:
 	mkdir app/dist -p
 	touch app/dist/.gitkeep
 	touch app/dist/server.js
-
-restore-frizzante-utilities:
-	go run github.com/razshare/frizzante -r "app/lib/utilities/frizzante"
 
 hooks:
 	printf "#!/usr/bin/env bash\n" > .git/hooks/pre-commit

@@ -1,6 +1,6 @@
-import type { View } from "$lib/utilities/frizzante/types.ts"
-import { IS_BROWSER } from "$lib/utilities/frizzante/constants.ts"
-import { swaps } from "$lib/utilities/frizzante/scripts/swaps.ts"
+import type { View } from "../types.ts"
+import { IS_BROWSER } from "../constants.ts"
+import { swaps } from "./swaps.ts"
 
 let started = false
 

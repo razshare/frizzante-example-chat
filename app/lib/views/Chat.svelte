@@ -9,8 +9,8 @@
 
 <script lang="ts">
     import Layout from "$lib/components/Layout.svelte"
-    import {source} from "$lib/utilities/frizzante/scripts/source.ts";
-    import { action } from "$lib/utilities/frizzante/scripts/action.ts"
+    import { source } from "$frizzante/scripts/source.ts"
+    import { action } from "$frizzante/scripts/action.ts"
 
     type Props = { messages: string[] }
     let { messages }: Props = $props()
@@ -26,11 +26,11 @@
             <div>{message}</div>
         {/each}
     </div>
-    <br/>
+    <br />
     <form method="POST" {...action("/chat/messages/add")}>
         <input class="message" type="text" name="message" />
-        <br/>
-        <br/>
+        <br />
+        <br />
         <button class="link">Submit Message</button>
     </form>
 </Layout>
