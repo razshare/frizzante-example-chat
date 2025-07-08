@@ -13,24 +13,24 @@ var messages = []string{}
 var listOfConnections = map[string]*connections.Connection{}
 
 func Chat(con *connections.Connection) {
-	state, _ := sessions.StartEmpty[lib.State](con)
-	if state.Username == "" {
+	session := sessions.StartEmpty[lib.State](con)
+	if session.State.Username == "" {
 		con.SendNavigate("/username")
 		return
 	}
 	con.SendView(views.View{Name: "Chat", Data: map[string]any{
-		"username": state.Username,
+		"username": session.State.Username,
 		"messages": messages,
 	}})
 }
 
 func ChatMessagesAdd(con *connections.Connection) {
-	state, _ := sessions.StartEmpty[lib.State](con)
-	if state.Username == "" {
+	session := sessions.StartEmpty[lib.State](con)
+	if session.State.Username == "" {
 		con.SendNavigate("/username")
 		return
 	}
-	message := fmt.Sprintf("%s: %s", state.Username, con.ReceiveForm().Get("message"))
+	message := fmt.Sprintf("%s: %s", session.State.Username, con.ReceiveForm().Get("message"))
 	messages = append(messages, message)
 	for _, conLocal := range listOfConnections {
 		conLocal.SendMessage(message)
@@ -38,8 +38,8 @@ func ChatMessagesAdd(con *connections.Connection) {
 }
 
 func ChatMessagesStream(con *connections.Connection) {
-	state, _ := sessions.StartEmpty[lib.State](con)
-	if state.Username == "" {
+	session := sessions.StartEmpty[lib.State](con)
+	if session.State.Username == "" {
 		con.SendNavigate("/username")
 		return
 	}
@@ -61,8 +61,8 @@ func ChatMessagesStream(con *connections.Connection) {
 }
 
 func ChatUsernameSet(con *connections.Connection) {
-	state, operator := sessions.StartEmpty[lib.State](con)
-	defer operator.Save(state)
-	state.Username = con.ReceiveForm().Get("username")
+	session := sessions.StartEmpty[lib.State](con)
+	defer session.Save()
+	session.State.Username = con.ReceiveForm().Get("username")
 	con.SendNavigate("/")
 }

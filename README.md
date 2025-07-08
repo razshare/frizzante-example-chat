@@ -8,8 +8,8 @@ This is a live chat application.
 >
 > ```sh
 > sudo apt install build-essential
-> which frizzante || go install github.com/razshare/frizzante@latest
-> which air || go install github.com/air-verse/air@latest
+> go install github.com/razshare/frizzante@latest
+> go install github.com/air-verse/air@latest
 > which bun || curl -fsSL https://bun.sh/install | bash
 > ```
 
