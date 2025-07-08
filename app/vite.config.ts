@@ -20,7 +20,8 @@ export default defineConfig({
         },
     },
     build: {
-        sourcemap: IS_DEV ? "inline" : false,
+        copyPublicDir: false,
+        sourcemap: IS_DEV ? "inline": false,
         rollupOptions: {
             input: {
                 index: "./index.html",
