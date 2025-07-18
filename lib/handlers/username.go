@@ -6,5 +6,5 @@ import (
 )
 
 func Username(con *connections.Connection) {
-	con.SendView(views.View{Name: "Username"})
+	connections.SendView(con, views.View{Name: "Username"})
 }

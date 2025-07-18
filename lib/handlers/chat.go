@@ -15,10 +15,10 @@ var listOfConnections = map[string]*connections.Connection{}
 func Chat(con *connections.Connection) {
 	session := sessions.StartEmpty[lib.State](con)
 	if session.State.Username == "" {
-		con.SendNavigate("/username")
+		connections.SendNavigate(con, "/username")
 		return
 	}
-	con.SendView(views.View{Name: "Chat", Data: map[string]any{
+	connections.SendView(con, views.View{Name: "Chat", Data: map[string]any{
 		"username": session.State.Username,
 		"messages": messages,
 	}})
@@ -27,42 +27,42 @@ func Chat(con *connections.Connection) {
 func ChatMessagesAdd(con *connections.Connection) {
 	session := sessions.StartEmpty[lib.State](con)
 	if session.State.Username == "" {
-		con.SendNavigate("/username")
+		connections.SendNavigate(con, "/username")
 		return
 	}
-	message := fmt.Sprintf("%s: %s", session.State.Username, con.ReceiveForm().Get("message"))
+	message := fmt.Sprintf("%s: %s", session.State.Username, connections.ReceiveForm(con).Get("message"))
 	messages = append(messages, message)
 	for _, conLocal := range listOfConnections {
-		conLocal.SendMessage(message)
+		connections.SendMessage(conLocal, message)
 	}
 }
 
 func ChatMessagesStream(con *connections.Connection) {
 	session := sessions.StartEmpty[lib.State](con)
 	if session.State.Username == "" {
-		con.SendNavigate("/username")
+		connections.SendNavigate(con, "/username")
 		return
 	}
 
 	idObj, idError := uuid.NewV4()
 	if idError != nil {
-		con.SendView(views.View{Name: "Chat", Data: map[string]any{
+		connections.SendView(con, views.View{Name: "Chat", Data: map[string]any{
 			"error": idError.Error(),
 		}})
 		return
 	}
 
-	con.SendSseUpgrade()
+	connections.SendSseUpgrade(con)
 
 	id := idObj.String()
 	listOfConnections[id] = con
-	<-con.ReceiveCancellation()
+	<-connections.ReceiveCancellation(con)
 	delete(listOfConnections, id)
 }
 
 func ChatUsernameSet(con *connections.Connection) {
 	session := sessions.StartEmpty[lib.State](con)
-	defer session.Save()
-	session.State.Username = con.ReceiveForm().Get("username")
-	con.SendNavigate("/")
+	defer sessions.Save(session)
+	session.State.Username = connections.ReceiveForm(con).Get("username")
+	connections.SendNavigate(con, "/")
 }
