@@ -9,11 +9,11 @@ import (
 	"main/lib"
 )
 
-var messages = []string{}
+var messages = make([]string, 0)
 var listOfConnections = map[string]*connections.Connection{}
 
 func Chat(con *connections.Connection) {
-	session := sessions.StartEmpty[lib.State](con)
+	session := sessions.Start[lib.State](con)
 	if session.State.Username == "" {
 		con.SendNavigate("/username")
 		return
@@ -25,7 +25,7 @@ func Chat(con *connections.Connection) {
 }
 
 func ChatMessagesAdd(con *connections.Connection) {
-	session := sessions.StartEmpty[lib.State](con)
+	session := sessions.Start[lib.State](con)
 	if session.State.Username == "" {
 		con.SendNavigate("/username")
 		return
@@ -38,7 +38,7 @@ func ChatMessagesAdd(con *connections.Connection) {
 }
 
 func ChatMessagesStream(con *connections.Connection) {
-	session := sessions.StartEmpty[lib.State](con)
+	session := sessions.Start[lib.State](con)
 	if session.State.Username == "" {
 		con.SendNavigate("/username")
 		return
@@ -61,7 +61,7 @@ func ChatMessagesStream(con *connections.Connection) {
 }
 
 func ChatUsernameSet(con *connections.Connection) {
-	session := sessions.StartEmpty[lib.State](con)
+	session := sessions.Start[lib.State](con)
 	defer session.Save()
 	session.State.Username = con.ReceiveForm().Get("username")
 	con.SendNavigate("/")
