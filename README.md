@@ -4,16 +4,20 @@ This is a live chat application.
 
 > [!NOTE]
 > #### Prerequisites
-> Make sure you have `frizzante`, `air`, `bun` and `build-essential` installed on your machine.
+> Install `build-essential` and `frizzante`.
 >
 > ```sh
 > sudo apt install build-essential
 > go install github.com/razshare/frizzante@latest
-> go install github.com/air-verse/air@latest
-> which bun || curl -fsSL https://bun.sh/install | bash
 > ```
 
 # Get Started
+
+Configure project
+
+```sh
+make configure
+```
 
 Start development mode with
 
@@ -29,4 +33,4 @@ Build for production with
 make build
 ```
 
-This will create a standalone `bin/app` binary file.
+This will create a standalone `.gen/bin/app` binary file.
