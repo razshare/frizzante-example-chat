@@ -4,7 +4,7 @@ import (
 	"embed"
 	"github.com/razshare/frizzante/routes"
 	"github.com/razshare/frizzante/servers"
-	"main/lib/handlers"
+	handlers2 "main/lib/routes/handlers"
 )
 
 //go:embed app/dist
@@ -15,12 +15,12 @@ func main() {
 	server.Efs = efs
 
 	server.Routes = []routes.Route{
-		{Pattern: "GET /", Handler: handlers.Default},
-		{Pattern: "GET /chat", Handler: handlers.Chat},
-		{Pattern: "GET /username", Handler: handlers.Username},
-		{Pattern: "GET /chat/messages/stream", Handler: handlers.ChatMessagesStream},
-		{Pattern: "POST /chat/messages/add", Handler: handlers.ChatMessagesAdd},
-		{Pattern: "POST /chat/username/set", Handler: handlers.ChatUsernameSet},
+		{Pattern: "GET /", Handler: handlers2.Default},
+		{Pattern: "GET /chat", Handler: handlers2.Chat},
+		{Pattern: "GET /username", Handler: handlers2.Username},
+		{Pattern: "GET /chat/messages/stream", Handler: handlers2.ChatMessagesStream},
+		{Pattern: "POST /chat/messages/add", Handler: handlers2.ChatMessagesAdd},
+		{Pattern: "POST /chat/username/set", Handler: handlers2.ChatUsernameSet},
 	}
 
 	server.Start()
