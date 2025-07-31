@@ -2,9 +2,10 @@ package main
 
 import (
 	"embed"
-	"github.com/joho/godotenv"
+	"github.com/razshare/frizzante/environments"
 	"github.com/razshare/frizzante/routes"
 	"github.com/razshare/frizzante/servers"
+	"github.com/razshare/frizzante/traces"
 	"main/lib/handlers"
 	"os"
 )
@@ -14,8 +15,10 @@ var efs embed.FS
 var server = servers.New()
 
 func main() {
-	if err := godotenv.Load(".env"); err != nil {
-		server.Notifier.SendError(err)
+	server.Efs = efs
+
+	if err := environments.LoadDotenv(".env"); err != nil {
+		traces.Trace(server.ErrorLog, err)
 	} else {
 		server.Address = os.Getenv("server.address")
 		server.SecureAddress = os.Getenv("server.secure_address")
@@ -27,12 +30,14 @@ func main() {
 		server.IndexHtml = os.Getenv("server.index_html")
 	}
 
-	server.Efs = efs
-	server.AddRoute(routes.Route{Pattern: "GET /", Handler: handlers.Default})
-	server.AddRoute(routes.Route{Pattern: "GET /chat", Handler: handlers.Chat})
-	server.AddRoute(routes.Route{Pattern: "GET /username", Handler: handlers.Username})
-	server.AddRoute(routes.Route{Pattern: "GET /chat/messages/stream", Handler: handlers.ChatMessagesStream})
-	server.AddRoute(routes.Route{Pattern: "POST /chat/messages/add", Handler: handlers.ChatMessagesAdd})
-	server.AddRoute(routes.Route{Pattern: "POST /chat/username/set", Handler: handlers.ChatUsernameSet})
+	server.Routes = []routes.Route{
+		{Pattern: "GET /", Handler: handlers.Default},
+		{Pattern: "GET /chat", Handler: handlers.Chat},
+		{Pattern: "GET /username", Handler: handlers.Username},
+		{Pattern: "GET /chat/messages/stream", Handler: handlers.ChatMessagesStream},
+		{Pattern: "POST /chat/messages/add", Handler: handlers.ChatMessagesAdd},
+		{Pattern: "POST /chat/username/set", Handler: handlers.ChatUsernameSet},
+	}
+
 	server.Start()
 }
