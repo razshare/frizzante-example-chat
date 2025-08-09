@@ -2,26 +2,27 @@ package main
 
 import (
 	"embed"
-	"github.com/razshare/frizzante/routes"
-	"github.com/razshare/frizzante/servers"
-	handlers2 "main/lib/routes/handlers"
+	"github.com/razshare/frizzante/route"
+	"github.com/razshare/frizzante/server"
+	"main/lib/routes/handlers/chat"
+	"main/lib/routes/handlers/fallback"
+	"main/lib/routes/handlers/messages"
+	"main/lib/routes/handlers/username"
 )
 
 //go:embed app/dist
 var efs embed.FS
-var server = servers.New()
+var conf = server.Default()
 
 func main() {
-	server.Efs = efs
-
-	server.Routes = []routes.Route{
-		{Pattern: "GET /", Handler: handlers2.Default},
-		{Pattern: "GET /chat", Handler: handlers2.Chat},
-		{Pattern: "GET /username", Handler: handlers2.Username},
-		{Pattern: "GET /chat/messages/stream", Handler: handlers2.ChatMessagesStream},
-		{Pattern: "POST /chat/messages/add", Handler: handlers2.ChatMessagesAdd},
-		{Pattern: "POST /chat/username/set", Handler: handlers2.ChatUsernameSet},
+	defer server.Start(conf)
+	conf.Container.Efs = efs
+	conf.Routes = []route.Route{
+		{Pattern: "GET /", Handler: fallback.View},
+		{Pattern: "GET /chat", Handler: chat.View},
+		{Pattern: "GET /username", Handler: username.View},
+		{Pattern: "POST /username", Handler: username.Action},
+		{Pattern: "GET /messages", Handler: messages.Stream},
+		{Pattern: "POST /messages", Handler: messages.Action},
 	}
-
-	server.Start()
 }

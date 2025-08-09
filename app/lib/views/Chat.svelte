@@ -14,7 +14,7 @@
 
     type Props = { messages: string[] }
     let { messages }: Props = $props()
-    const connection = source("/chat/messages/stream")
+    const connection = source("/messages")
     const channel = connection.select()
     channel.subscribe(message => messages.push(message))
 </script>
@@ -27,7 +27,7 @@
         {/each}
     </div>
     <br />
-    <form method="POST" {...action("/chat/messages/add")}>
+    <form method="POST" {...action("/messages")}>
         <input class="message" type="text" name="message" />
         <br />
         <br />

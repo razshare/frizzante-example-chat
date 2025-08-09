@@ -5,7 +5,7 @@
 
 <Layout title="Pick Room">
     <h1>Pick a valid username.</h1>
-    <form method="POST" {...action("/chat/username/set")}>
+    <form method="POST" {...action("/username")}>
         <input type="text" name="username" />
         <button class="link">Submit Username</button>
     </form>

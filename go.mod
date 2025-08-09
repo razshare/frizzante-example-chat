@@ -2,6 +2,8 @@ module main
 
 go 1.24
 
+replace github.com/razshare/frizzante => /home/raz/Github/razshare/frizzante
+
 require (
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d
 	github.com/razshare/frizzante v1.16.21
