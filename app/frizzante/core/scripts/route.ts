@@ -1,6 +1,6 @@
-import type { View } from "$frizzante/core/types.ts"
+import type { HistoryEntry, View } from "$frizzante/core/types.ts"
 import { IS_BROWSER } from "$frizzante/core/constants.ts"
-import { swaps } from "$frizzante/core/scripts/swaps.ts"
+import { swap } from "$frizzante/core/scripts/swap.ts"
 
 let started = false
 
@@ -9,24 +9,37 @@ export function route(view: View<never>): void {
         return
     }
 
+    const form = document.createElement("form")
+    const anchor = document.createElement("a")
+
     const listener = async function pop(e: PopStateEvent) {
         e.preventDefault()
+        const serialized = (e.state ?? "") as string
 
-        const id = e.state ?? ""
-        const current = swaps.find(id)
+        if(serialized!==""){
+            const entry = JSON.parse(serialized) as HistoryEntry
 
-        if (!current) {
-            await swaps.swap(view).withPath("/").play()
+            if(entry.method === "GET") {
+                anchor.href = entry.url
+                await swap(anchor, view)
+            }
+
+            form.innerHTML = ""
+            for (const key in entry.body) {
+                const value = entry.body[key]
+                const input = document.createElement("input")
+                input.value = value
+                form.appendChild(input)
+            }
+
+            await swap(form, view)
             return
         }
 
-        if (current.position() + 1 != swaps.position()) {
-            swaps.teleport(current.position() + 1)
-            await current.play()
-        } else {
-            await current.withUpdate(true).play()
-        }
+        anchor.href = "/"
+        await swap(anchor, view)
     }
+
     window.addEventListener("popstate", listener)
     started = true
 }
