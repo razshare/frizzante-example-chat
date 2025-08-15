@@ -4,20 +4,25 @@ import (
 	"embed"
 	"github.com/razshare/frizzante/route"
 	"github.com/razshare/frizzante/server"
+	"github.com/razshare/frizzante/svelte/ssr"
 	"main/lib/routes/handlers/chat"
 	"main/lib/routes/handlers/fallback"
 	"main/lib/routes/handlers/messages"
 	"main/lib/routes/handlers/username"
+	"os"
 )
 
 //go:embed app/dist
 var efs embed.FS
-var conf = server.Default()
+var srv = server.New()
+var dev = os.Getenv("DEV") == "1"
+var render = ssr.New(ssr.Config{Efs: efs, Disk: dev})
 
 func main() {
-	defer server.Start(conf)
-	conf.Container.Efs = efs
-	conf.Routes = []route.Route{
+	defer server.Start(srv)
+	srv.Efs = efs
+	srv.Render = render
+	srv.Routes = []route.Route{
 		{Pattern: "GET /", Handler: fallback.View},
 		{Pattern: "GET /chat", Handler: chat.View},
 		{Pattern: "GET /username", Handler: username.View},

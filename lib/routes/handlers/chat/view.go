@@ -15,7 +15,7 @@ func View(c *client.Client) {
 		send.Navigate(c, "/username")
 		return
 	}
-	send.View(c, view.View{Name: "Chat", Data: map[string]any{
+	send.View(c, view.View{Name: "Chat", Props: map[string]any{
 		"username": s.Username,
 		"messages": messages.Messages,
 	}})

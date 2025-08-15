@@ -19,7 +19,7 @@ func Stream(c *client.Client) {
 
 	id, err := uuid.NewV4()
 	if err != nil {
-		send.View(c, view.View{Name: "Chat", Data: map[string]any{
+		send.View(c, view.View{Name: "Chat", Props: map[string]any{
 			"error": err.Error(),
 		}})
 		return
