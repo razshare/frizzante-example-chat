@@ -9,8 +9,8 @@
 
 <script lang="ts">
     import Layout from "$lib/components/Layout.svelte"
-    import { source } from "$frizzante/core/scripts/source.ts"
-    import { action } from "$frizzante/core/scripts/action.ts"
+    import {source} from "$lib/scripts/core/source.ts";
+    import {action} from "$lib/scripts/core/action.ts";
 
     type Props = { messages: string[] }
     let { messages }: Props = $props()

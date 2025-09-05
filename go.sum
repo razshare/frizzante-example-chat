@@ -34,6 +34,8 @@ github.com/google/pprof v0.0.0-20250630185457-6e76a2b096b5 h1:xhMrHhTJ6zxu3gA4en
 github.com/google/pprof v0.0.0-20250630185457-6e76a2b096b5/go.mod h1:5hDyRhoBCxViHszMt12TnOpEI4VVi+U8Gm9iphldiMA=
 github.com/google/pprof v0.0.0-20250820193118-f64d9cf942d6 h1:EEHtgt9IwisQ2AZ4pIsMjahcegHh6rmhqxzIRQIyepY=
 github.com/google/pprof v0.0.0-20250820193118-f64d9cf942d6/go.mod h1:I6V7YzU0XDpsHqbsyrghnFZLO1gwK6NPTNvmetQIk9U=
+github.com/google/pprof v0.0.0-20250903194437-c28834ac2320 h1:c7ayAhbRP9HnEl/hg/WQOM9s0snWztfW6feWXZbGHw0=
+github.com/google/pprof v0.0.0-20250903194437-c28834ac2320/go.mod h1:I6V7YzU0XDpsHqbsyrghnFZLO1gwK6NPTNvmetQIk9U=
 github.com/gorilla/websocket v1.5.3 h1:saDtZ6Pbx/0u+bgYQ3q96pZgCzfhKXGPqt7kZ72aNNg=
 github.com/gorilla/websocket v1.5.3/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/joho/godotenv v1.5.1 h1:7eLL/+HRGLY0ldzfGMeQkb7vMd0as4CfYvUVzLqw0N0=
@@ -145,6 +147,8 @@ github.com/razshare/frizzante v1.23.17 h1:9j9eMwJY7vVSDGj1rF4QbvAB6hzA4HzJFVwuAm
 github.com/razshare/frizzante v1.23.17/go.mod h1:BCYvmpamPsio8QP+d+TcpIhahkxZZmHrDI+YSSR0kco=
 github.com/razshare/frizzante v1.24.2 h1:Id59GfNufNeDJMn+VtAFwarmcBKBQosi2yZptz00alo=
 github.com/razshare/frizzante v1.24.2/go.mod h1:BCYvmpamPsio8QP+d+TcpIhahkxZZmHrDI+YSSR0kco=
+github.com/razshare/frizzante v1.28.15 h1:yIP4+10XUE7PG0cWtkg2dYhq/Byz7sxEgyvQBX9Etkw=
+github.com/razshare/frizzante v1.28.15/go.mod h1:k+vBMvirwZVAILo3IXb9vboZonTvmZaOJTaTCTBg+C8=
 github.com/rivo/uniseg v0.2.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
 github.com/rivo/uniseg v0.4.7 h1:WUdvkW8uEhrYfLC4ZzdpI2ztxP1I582+49Oc5Mq64VQ=
 github.com/rivo/uniseg v0.4.7/go.mod h1:FN3SvrM+Zdj16jyLfmOkMNblXMcoc8DfTHruCPUcx88=

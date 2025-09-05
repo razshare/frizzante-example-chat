@@ -1,6 +1,6 @@
 package messages
 
-import "github.com/razshare/frizzante/client"
+import "main/lib/core/client"
 
 var Messages = make([]string, 0)
 var Clients = map[string]*client.Client{}

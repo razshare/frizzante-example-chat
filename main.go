@@ -2,9 +2,9 @@ package main
 
 import (
 	"embed"
-	"github.com/razshare/frizzante/route"
-	"github.com/razshare/frizzante/server"
-	"github.com/razshare/frizzante/svelte/ssr"
+	"main/lib/core/route"
+	"main/lib/core/server"
+	"main/lib/core/svelte/ssr"
 	"main/lib/routes/handlers/chat"
 	"main/lib/routes/handlers/fallback"
 	"main/lib/routes/handlers/messages"

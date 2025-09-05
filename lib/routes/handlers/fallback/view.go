@@ -1,8 +1,8 @@
 package fallback
 
 import (
-	"github.com/razshare/frizzante/client"
-	"github.com/razshare/frizzante/send"
+	"main/lib/core/client"
+	"main/lib/core/send"
 	"main/lib/routes/handlers/chat"
 )
 
